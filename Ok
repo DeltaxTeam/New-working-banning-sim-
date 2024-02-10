@@ -1,0 +1,48 @@
+local miniScreen = Instance.new("ScreenGui")
+miniScreen.Name = "MiniScreen"
+miniScreen.Parent = game.CoreGui
+
+local usernameTextBox = Instance.new("TextBox")
+usernameTextBox.Name = "UsernameTextBox"
+usernameTextBox.Parent = miniScreen
+usernameTextBox.Position = UDim2.new(0.5, 0, 0.5, -50)
+usernameTextBox.Size = UDim2.new(0.5, 0, 0, 30)
+usernameTextBox.BackgroundColor3 = Color3.new(1, 1, 1)
+usernameTextBox.Text = ""
+
+local hackButton = Instance.new("TextButton")
+hackButton.Name = "HackButton"
+hackButton.Parent = miniScreen
+hackButton.Position = UDim2.new(0.5, 0, 0.7, 0)
+hackButton.Size = UDim2.new(0.5, 0, 0, 30)
+hackButton.BackgroundColor3 = Color3.new(1, 0, 0)
+hackButton.Text = "Hack"
+
+local function onHackButtonClicked()
+  local username = usernameTextBox.Text
+
+  local targetPlayer = nil
+  for i, player in ipairs(game.Players:GetPlayers()) do
+    if player.Name:lower() == username:lower() then
+      targetPlayer = player
+      break
+    end
+  end
+
+  if targetPlayer == nil then
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+      Title = "Error";
+      Text = "Player not found - Wrong username";
+      Duration = 3;
+    })
+    return
+  end
+
+  targetPlayer:Kick("Hahahahah you are hacked")
+  game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "Success";
+    Text = "Player kicked - " .. targetPlayer.Name;
+    Duration = 3;
+  })
+end
+hackButton.MouseButton1Click:connect(onHackButtonClicked)
